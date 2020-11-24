@@ -41,6 +41,10 @@ public class PrinterService {
                 + FS + "p" + SOH + "0";
          */
 
+        bestellung = bestellung+ "\n\n\n\n"
+                + GS + "V1\n"
+                + FS + "p" + SOH + "0";
+
         try {
             serialPortFile.writeUTF(bestellung);
         } catch (IOException e) {
