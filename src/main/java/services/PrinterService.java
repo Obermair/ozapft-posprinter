@@ -2,6 +2,7 @@ package services;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -23,6 +24,13 @@ public class PrinterService {
             System.exit(1);
         }
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response printerAvailable(){
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
+
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
