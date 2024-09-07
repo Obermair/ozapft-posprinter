@@ -44,7 +44,7 @@ public class PrinterService {
             if (port != null) {
                 serialPortFile = new RandomAccessFile(port, "rw");
             } else {
-                 e.printStackTrace();
+                return "Error: No available printer port.";
             }
 
             try {
