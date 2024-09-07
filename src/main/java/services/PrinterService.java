@@ -52,7 +52,7 @@ public class PrinterService {
             //serialPortFile.getFD().sync(); Ensure data is written out before closing
         } catch (IOException e) {
             e.printStackTrace();
-            //return handleSerialPortReconnection(bestellung);
+            return Response.status(Response.Status.SERVICE_UNAVAILABLE).entity("Printer not available").build();
         }
 
         return "Printing ... = " + bestellung;
