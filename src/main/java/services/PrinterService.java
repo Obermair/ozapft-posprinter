@@ -40,13 +40,20 @@ public class PrinterService {
         try {
             // Attempt to open the serial port
             String port = getAvailableSerialPort();
+            
             if (port != null) {
                 serialPortFile = new RandomAccessFile(port, "rw");
             } else {
-                return Response.status(Response.Status.SERVICE_UNAVAILABLE).entity("Printer not available").build();
+                 e.printStackTrace();
             }
-            
-            serialPortFile.writeUTF(bestellung);
+
+            try {
+                serialPortFile.writeUTF(bestellung);
+                serialPortFile.close();
+            }
+            catch (IOException e) {
+                handleSerialPortReconnection();
+            }    
             //serialPortFile.getFD().sync(); Ensure data is written out before closing
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,7 +72,7 @@ public class PrinterService {
             if (port != null) {
                 serialPortFile = new RandomAccessFile(port, "rw");
                 serialPortFile.writeUTF(bestellung);
-                return "Reconnected and printing ... = " + bestellung;
+                return "printing ... = " + bestellung;
             } else {
                 return "Error: No available printer port after reconnection attempt.";
             }
