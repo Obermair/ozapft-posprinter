@@ -32,7 +32,7 @@ public class PrinterService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String printBestellung(String bestellung) {
+    public Response printBestellung(String bestellung) {
         bestellung = bestellung + "\n\n\n\n"
                 + GS + "V1\n"
                 + FS + "p" + SOH + "0";
@@ -44,7 +44,7 @@ public class PrinterService {
                 if (port != null) {
                     serialPortFile = new RandomAccessFile(port, "rw");
                 } else {
-                    return "Error: No available printer port.";
+                    return Response.status(Response.Status.SERVICE_UNAVAILABLE).entity("Printer not available").build();
                 }
             }
 
@@ -55,7 +55,7 @@ public class PrinterService {
             return Response.status(Response.Status.SERVICE_UNAVAILABLE).entity("Printer not available").build();
         }
 
-        return "Printing ... = " + bestellung;
+        return Response.ok().entity("Printed successfully").build();
     }
 
     private String handleSerialPortReconnection(String bestellung) {
