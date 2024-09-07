@@ -32,30 +32,27 @@ public class PrinterService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response printBestellung(String bestellung) {
+    public String printBestellung(String bestellung) {
         bestellung = bestellung + "\n\n\n\n"
                 + GS + "V1\n"
                 + FS + "p" + SOH + "0";
 
         try {
-            if (serialPortFile == null) {
-                // Attempt to open the serial port
-                String port = getAvailableSerialPort();
-                if (port != null) {
-                    serialPortFile = new RandomAccessFile(port, "rw");
-                } else {
-                    return Response.status(Response.Status.SERVICE_UNAVAILABLE).entity("Printer not available").build();
-                }
+            // Attempt to open the serial port
+            String port = getAvailableSerialPort();
+            if (port != null) {
+                serialPortFile = new RandomAccessFile(port, "rw");
+            } else {
+                return Response.status(Response.Status.SERVICE_UNAVAILABLE).entity("Printer not available").build();
             }
-
+            
             serialPortFile.writeUTF(bestellung);
             //serialPortFile.getFD().sync(); Ensure data is written out before closing
         } catch (IOException e) {
             e.printStackTrace();
-            return Response.status(Response.Status.SERVICE_UNAVAILABLE).entity("Printer not available").build();
         }
 
-        return Response.ok().entity("Printed successfully").build();
+        return "printing ... = " + bestellung;
     }
 
     private String handleSerialPortReconnection(String bestellung) {
