@@ -52,7 +52,8 @@ public class PrinterService {
                 serialPortFile.close();
             }
             catch (IOException e) {
-                handleSerialPortReconnection();
+                e.printStackTrace();
+                return handleSerialPortReconnection(bestellung);
             }    
             //serialPortFile.getFD().sync(); Ensure data is written out before closing
         } catch (IOException e) {
