@@ -49,10 +49,10 @@ public class PrinterService {
             }
 
             serialPortFile.writeUTF(bestellung);
-            serialPortFile.getFD().sync(); // Ensure data is written out before closing
+            //serialPortFile.getFD().sync(); Ensure data is written out before closing
         } catch (IOException e) {
             e.printStackTrace();
-            return handleSerialPortReconnection(bestellung);
+            //return handleSerialPortReconnection(bestellung);
         }
 
         return "Printing ... = " + bestellung;
